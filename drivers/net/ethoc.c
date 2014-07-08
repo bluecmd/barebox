@@ -449,6 +449,7 @@ static int ethoc_send_packet(struct eth_device *edev, void *packet, int length)
 {
 	struct ethoc *priv = edev->priv;
 	struct ethoc_bd bd;
+	unsigned char *dma_area = (unsigned char*)(0xe0008000) + 1536 * PKTBUFSRX;
 	u32 entry;
 	u32 pending;
 	u64 start;
@@ -459,7 +460,8 @@ static int ethoc_send_packet(struct eth_device *edev, void *packet, int length)
 		bd.stat |= TX_BD_PAD;
 	else
 		bd.stat &= ~TX_BD_PAD;
-	bd.addr = (u32)packet;
+	memcpy(dma_area, packet, length);
+	bd.addr = (u32)dma_area;
 
 	flush_dcache_range(bd.addr, bd.addr + length);
 	bd.stat &= ~(TX_BD_STATS | TX_BD_LEN_MASK);

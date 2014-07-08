@@ -657,7 +657,7 @@ static int net_init(void)
 	int i;
 
 	for (i = 0; i < PKTBUFSRX; i++)
-		NetRxPackets[i] = net_alloc_packet();
+		NetRxPackets[i] = (unsigned char *)(0xe0008000) + 1536*i;
 
 	register_device(&net_device);
 	dev_add_param(&net_device, "nameserver", NULL, NULL, 0);
