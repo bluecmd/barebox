@@ -85,3 +85,7 @@ cscope.*
 scripts/gen_netx_image
 scripts/s5p_cksum
 scripts/bareboxenv-target
+
+arch/openrisc/cpu/barebox.lds
+barebox.bsw
+mexiko.passwd
